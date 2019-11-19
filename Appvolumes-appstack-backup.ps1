@@ -5,6 +5,12 @@ username = “"
 password = “”
 }
 
+$path = "C:\Backups\Appvolumes"
+if (!(Test-Path $path))
+{
+    New-Item -Path "C:\Backups\Appvolumes" -ItemType "directory"
+}
+
 Invoke-RestMethod "https:///cv_api/sessions" -Method Post -SessionVariable Apilogin -Body $body
 
 $appStacks = Invoke-RestMethod "https:///cv_api/appstacks" -Method Get -WebSession $Apilogin
