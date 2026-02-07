@@ -3,10 +3,11 @@ username = “"
 password = “”
 }
 
-$path = ("C:\Backups\Appvolumes\Applications\Backup-" + (Get-Date -format "dd-MM-yyyy"))
+$timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
+$path = ("C:\Backups\Appvolumes\Applications\Backup-" + $timestamp)
 if (!(Test-Path $path))
 {
-    New-Item -Path "C:\Backups\Appvolumes\Applications" -Name ("Backup-" + (Get-Date -format "dd-MM-yyyy")) -ItemType "directory"
+    New-Item -Path "C:\Backups\Appvolumes\Applications" -Name ("Backup-" + $timestamp) -ItemType "directory"
 }
 
 Invoke-RestMethod "https:///cv_api/sessions" -Method Post -SessionVariable Apilogin -Body $body
@@ -37,9 +38,8 @@ for ($i = 0; $i -lt $appStacks.count; $i++)
 
     }
 
-    $path = "C:\Backups\Appvolumes\Applications\" + ("Backup-" + (Get-Date -format "dd-MM-yyyy")) + "\" + ($appstack.name.Replace("/","-")) + ".csv"
+    $path = "C:\Backups\Appvolumes\Applications\" + ("Backup-" + $timestamp) + "\" + ($appstack.name.Replace("/","-")) + ".csv"
     $data | Export-CSV $path
 }
-
 
 
