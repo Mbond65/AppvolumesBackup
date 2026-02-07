@@ -5,6 +5,7 @@ username = “"
 password = “”
 }
 
+$hostName = $env:COMPUTERNAME
 $path = "C:\Backups\Appvolumes"
 if (!(Test-Path $path))
 {
@@ -25,10 +26,10 @@ for ($i = 0; $i -lt $appStacks.count; $i++)
     $row | Add-Member -MemberType NoteProperty -Name "path" -Value $appstack.path
     $row | Add-Member -MemberType NoteProperty -Name "status" -Value $appstack.status
     $row | Add-Member -MemberType NoteProperty -Name "size" -Value $appstack.size_mb
+    $row | Add-Member -MemberType NoteProperty -Name "host_name" -Value $hostName
     $data += $row
 
 }
 
 $data | Export-Csv ("C:\Backups\Appvolumes\Appstacks-" + (Get-Date -format "dd-MM-yyyy") + ".csv")
-
 

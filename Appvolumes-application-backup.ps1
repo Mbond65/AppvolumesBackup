@@ -3,6 +3,7 @@ username = “"
 password = “”
 }
 
+$hostName = $env:COMPUTERNAME
 $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
 $path = ("C:\Backups\Appvolumes\Applications\Backup-" + $timestamp)
 if (!(Test-Path $path))
@@ -34,6 +35,7 @@ for ($i = 0; $i -lt $appStacks.count; $i++)
         $row | Add-Member -MemberType NoteProperty -Name "icon" -Value $application.icon
         $row | Add-Member -MemberType NoteProperty -Name "version" -Value $application.version
         $row | Add-Member -MemberType NoteProperty -Name "publisher" -Value $application.publisher
+        $row | Add-Member -MemberType NoteProperty -Name "host_name" -Value $hostName
         $data += $row
 
     }
@@ -41,5 +43,4 @@ for ($i = 0; $i -lt $appStacks.count; $i++)
     $path = "C:\Backups\Appvolumes\Applications\" + ("Backup-" + $timestamp) + "\" + ($appstack.name.Replace("/","-")) + ".csv"
     $data | Export-CSV $path
 }
-
 
