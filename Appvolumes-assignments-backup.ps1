@@ -3,6 +3,7 @@ username = “"
 password = “”
 }
 
+$hostName = $env:COMPUTERNAME
 $path = ("C:\Backups\Appvolumes\Assignments\Backup-" + (Get-Date -format "dd-MM-yyyy"))
 if (!(Test-Path $path))
 {
@@ -27,6 +28,7 @@ for ($i = 0; $i -lt $appStacks.count; $i++)
 
         $row = New-Object PSObject
         $row | Add-Member -MemberType NoteProperty -Name "name" -Value $assignment.name
+        $row | Add-Member -MemberType NoteProperty -Name "host_name" -Value $hostName
         $data += $row
 
     }
@@ -34,4 +36,3 @@ for ($i = 0; $i -lt $appStacks.count; $i++)
     $path = "C:\Backups\Appvolumes\Assignments\" + ("Backup-" + (Get-Date -format "dd-MM-yyyy")) + "\" + ($appstack.name.Replace("/","-")) + ".csv"
     $data | Export-CSV $path
 }
-
